@@ -1,0 +1,90 @@
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>VIX + IV Alert Desk</title>
+    <link rel="stylesheet" href="/styles.css" />
+  </head>
+  <body>
+    <aside class="rail">
+      <div class="brand">IV Desk</div>
+      <nav>
+        <a class="active" href="#overview">总览</a>
+        <a href="#signals">信号</a>
+        <a href="#watchlist">标的</a>
+        <a href="#settings">配置</a>
+      </nav>
+    </aside>
+
+    <main>
+      <section id="overview" class="topbar">
+        <div>
+          <p class="eyebrow">VIX + 30D IV monitor</p>
+          <h1>波动率开仓警示台</h1>
+        </div>
+        <div class="sync">
+          <span id="provider">demo</span>
+          <span id="updated">等待同步</span>
+        </div>
+      </section>
+
+      <section class="workspace">
+        <section class="market">
+          <div class="vix-panel">
+            <span class="label">VIX</span>
+            <strong id="vixValue">--</strong>
+            <span id="regime" class="badge">Loading</span>
+            <p id="regimeNote">正在读取市场波动率状态。</p>
+          </div>
+          <div class="chart-panel">
+            <div class="section-head">
+              <h2>VIX趋势</h2>
+              <span>最近轮询</span>
+            </div>
+            <svg id="vixChart" viewBox="0 0 640 180" preserveAspectRatio="none" role="img" aria-label="VIX chart"></svg>
+          </div>
+        </section>
+
+        <section id="signals" class="signals">
+          <div class="section-head">
+            <h2>开仓候选</h2>
+            <span id="alertCount">0 个触发</span>
+          </div>
+          <div id="alerts" class="alert-list"></div>
+        </section>
+
+        <section id="watchlist" class="table-wrap">
+          <div class="section-head">
+            <h2>核心标的30天IV</h2>
+            <span>按优先级排序</span>
+          </div>
+          <table>
+            <thead>
+              <tr>
+                <th>标的</th>
+                <th>价格</th>
+                <th>30D IV</th>
+                <th>IV百分位</th>
+                <th>变化</th>
+                <th>信号</th>
+                <th>策略提示</th>
+              </tr>
+            </thead>
+            <tbody id="rows"></tbody>
+          </table>
+        </section>
+
+        <section id="settings" class="settings">
+          <div>
+            <h2>告警状态</h2>
+            <p id="statusText">读取配置中。</p>
+          </div>
+          <button id="testEmail" type="button">发送测试邮件</button>
+        </section>
+      </section>
+    </main>
+
+    <script src="/app.js"></script>
+  </body>
+</html>
