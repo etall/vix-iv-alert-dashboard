@@ -83,6 +83,8 @@ function loadConfig() {
       pass: process.env.SMTP_PASS || "",
       from: process.env.ALERT_FROM || process.env.SMTP_USER || "",
       to: process.env.ALERT_TO || "",
+      apiKey: process.env.RESEND_API_KEY || "",
+      provider: process.env.EMAIL_PROVIDER || "smtp", // 'smtp' or 'resend'
       cooldownMs: envNumber("ALERT_COOLDOWN_MINUTES", 90) * 60 * 1000,
     },
   };

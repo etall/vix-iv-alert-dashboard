@@ -5,10 +5,13 @@ const { loadConfig } = require("./src/config");
 const { createProvider } = require("./src/dataProvider");
 const { buildSignals } = require("./src/alertEngine");
 const { SmtpClient } = require("./src/emailer");
+const { ResendClient } = require("./src/resendEmailer");
 
 const config = loadConfig();
 const provider = createProvider(config);
-const emailer = new SmtpClient(config);
+const emailer = config.email.provider === 'resend' 
+  ? new ResendClient(config) 
+  : new SmtpClient(config);
 
 let latest = null;
 let previous = null;

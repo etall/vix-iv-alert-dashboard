@@ -2,8 +2,10 @@
   "scripts": {
     "start": "node server.js",
     "dev": "node server.js",
-    "check": "node --check server.js && node --check src/alertEngine.js && node --check src/dataProvider.js && node --check src/emailer.js && node --check src/config.js"
+    "check": "node --check server.js && node --check src/alertEngine.js && node --check src/dataProvider.js && node --check src/emailer.js && node --check src/resendEmailer.js && node --check src/config.js"
   },
-  "dependencies": {},
+  "dependencies": {
+    "resend": "^4.0.0"
+  },
   "devDependencies": {}
 }
