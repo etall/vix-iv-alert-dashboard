@@ -85,12 +85,15 @@ async function poll() {
     const emailAlerts = enriched.alerts.filter(shouldSend).slice(0, 5);
     if (emailAlerts.length && emailer.isConfigured()) {
       const message = buildAlertEmail(emailAlerts, enriched);
+      console.log('[Server] Attempting to send email alert...');
       const result = await emailer.send(message);
       if (result.sent) {
         emailAlerts.forEach(rememberSent);
         status.lastEmailAt = new Date().toISOString();
+        console.log('[Server] Email sent successfully');
       } else {
-        status.lastError = result.reason || "Email was not sent.";
+        status.lastError = result.reason || 'Email was not sent.';
+        console.error('[Server] Email failed:', result);
       }
     }
   } catch (error) {
@@ -130,13 +133,20 @@ const server = http.createServer((req, res) => {
   if (req.url === "/api/history") return json(res, history);
   if (req.url === "/api/status") return json(res, { ...status, thresholds: config.thresholds, watchlist: config.watchlist });
   if (req.url === "/api/test-email" && req.method === "POST") {
+    console.log('[Server] Test email request received');
     return emailer
       .send({
         subject: "VIX/IV Alert Dashboard 测试邮件",
         text: "如果你收到这封邮件，说明SMTP配置可用。",
       })
-      .then((result) => json(res, result))
-      .catch((error) => json(res, { sent: false, error: error.message }, 500));
+      .then((result) => {
+        console.log('[Server] Test email result:', result);
+        return json(res, result);
+      })
+      .catch((error) => {
+        console.error('[Server] Test email error:', error);
+        return json(res, { sent: false, error: error.message, details: error.stack }, 500);
+      });
   }
   return serveStatic(req, res);
 });
